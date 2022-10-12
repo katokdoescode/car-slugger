@@ -1,4 +1,4 @@
-import { CarSlugger } from ".";
+import { CarSlugger } from "../";
 const slugger = new CarSlugger();
 
 console.log('Simple string: ', slugger.translateCyrillic('Привет мир'));
