@@ -1,0 +1,22 @@
+{
+  "name": "car-slugger",
+  "version": "1.0.0",
+  "description": "Simple package to convert strings to slug strings. Crafted for converting car names and models to slug",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "slug",
+    "convert",
+    "translit",
+    "cyrillic",
+    "cars",
+    "typescript"
+  ],
+  "author": "@katokdoescode",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}
