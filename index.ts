@@ -67,7 +67,7 @@ type Alphabet = {
 	 * 	match #4: 4x4
 	 * }
 	 */
-	private commonRegExp: RegExp = new RegExp(/(\dx\d)|([a-zA-Z]+)|([а-яА-Я]+)|(\d+)/g);
+	private commonRegExp: RegExp = new RegExp(/([a-zA-Z]+\d+)|(\dx\d)|([a-zA-Z]+)|([а-яА-Я]+)|(\d+)/g);
 
 	/**
 	 * Matches all cyrillic letters
