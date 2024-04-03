@@ -44,12 +44,45 @@ export class CarSlugger {
 	};
 
 	/**
+	 * Alphabet needs to translate latin letters to cyrillic
+	 */
+	private latinDict: Alphabet = {
+		'a': 'а',
+		'b': 'б',
+		'c': 'к',
+		'd': 'д',
+		'e': 'е',
+		'f': 'ф',
+		'g': 'г',
+		'h': 'х',
+		'i': 'и',
+		'j': 'дж',
+		'k': 'к',
+		'l': 'л',
+		'm': 'м',
+		'n': 'н',
+		'o': 'о',
+		'p': 'п',
+		'q': 'к',
+		'r': 'р',
+		's': 'с',
+		't': 'т',
+		'u': 'у',
+		'v': 'в',
+		'w': 'в',
+		'x': 'кс',
+		'y': 'й',
+		'z': 'з',
+		' ': ' ',
+	};
+
+	/**
 	 * Just replace space to score
 	 *
 	 * @param text string
 	 * @returns string
 	 */
-	private wordsToSlug(text: string) {
+	private wordsToSlug(text: string): string {
 		return text.replaceAll(' ', '-');
 	};
 
@@ -79,7 +112,8 @@ export class CarSlugger {
 	 */
 	private cyrillicRegExp: RegExp = new RegExp(/[а-яА-Я]+/);
 	private cyrillicUppercase: RegExp = new RegExp(/[А-Я]+/);
-	private cyrillicLowercase: RegExp = new RegExp(/[а-я]+/);
+	private latinRegExp: RegExp = new RegExp(/[a-zA-Z]+/);
+	private latinUppercase: RegExp = new RegExp(/[A-Z]+/);
 
 	/**
 	 * Returns new sliced lowercase string
@@ -88,14 +122,14 @@ export class CarSlugger {
 	 * @param text string
 	 * @returns string
 	 */
-	public parseString(text: string) {
+	private parseString(text: string): string {
 		const words: string[] | null = text.match(this.commonRegExp);
-		let output: string = '';
+		let output = '';
 
 		words?.forEach((word: string, index: number, arr: any) => {
 			if (this.cyrillicRegExp.test(word)) {
 
-				for (let i: number = 0; i <= word.length; i++) {
+				for (let i = 0; i <= word.length; i++) {
 					if (i < word.length) output += this.dict[word[i].toLocaleLowerCase()] ?? '';
 					else output += arr.length === index + 1 ? '' : ' ';
 				};
@@ -120,18 +154,46 @@ export class CarSlugger {
 	 * @param text string
 	 * @returns string
 	 */
-	public translateCyrillic(text: string) {
+	public translateCyrillic(text: string): string {
 		if (this.cyrillicRegExp.test(text)) {
-			let output: string = '';
-			for (let i: number = 0; i <= text.length; i++) {
+			let output = '';
+			for (let i = 0; i <= text.length; i++) {
 				if (this.cyrillicUppercase.test(text[i])) output += this.dict[text[i].toLowerCase()].toUpperCase() ?? '';
-				if (this.cyrillicLowercase.test(text[i])) output += this.dict[text[i]] ?? '';
 				else output += this.dict[text[i]] ?? '';
 			};
 			return output;
 		} else {
-			return new Error("String don't matches [а-яА-Я] regexp;")
+			throw new Error("String don't matches [а-яА-Я] regexp;")
 		}
+	}
+
+	/**
+	 * Easy translit latin to cyrillic
+	 *
+	 * @param text string
+	 * @returns string
+	 */
+	public translateLatin(text: string): string {
+		if (this.latinRegExp.test(text)) {
+			let output = '';
+			for (let i = 0; i <= text.length; i++) {
+				if (this.latinUppercase.test(text[i])) output += this.latinDict[text[i].toLowerCase()].toUpperCase() ?? '';
+				else output += this.latinDict[text[i]] ?? '';
+			};
+			return output;
+		} else {
+			throw new Error("String don't matches [a-zA-Z] regexp;");
+		}
+	}
+
+	public translateCustom(text: string, dict: Alphabet): string {
+		let output = '';
+
+		for (let i = 0; i <= text.length; i++) {
+			output += dict[text[i]] ?? '';
+		}
+
+		return output;
 	}
 
 	public testString(string: string) {
@@ -153,7 +215,7 @@ export class CarSlugger {
 	 *
 	 * @example "LADA (ВАЗ) 2112 4x4" >>> "lada-vaz-2112-4x4"
 	 */
-	public getSlug(string: string) {
+	public getSlug(string: string): string {
 		return this.wordsToSlug(
 			this.parseString(string)
 		);

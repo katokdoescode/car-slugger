@@ -27,6 +27,19 @@ console.log(slugger.translateCyrillic('Привет мир'));
 // Output: "Privet mir"
 ```
 
+### Simple translit latin to cyrillic
+
+This one is really poor
+
+```JavaScript
+import { CarSlugger } from "car-slugger";
+const slugger = new CarSlugger();
+
+console.log(slugger.translateLatin('Transatlantic ocean'));
+
+// Output: "Трансатлантик океан"
+```
+
 ### Converting to slug
 
 ```JavaScript
@@ -36,4 +49,21 @@ const slugger = new CarSlugger();
 console.log(slugger.getSlug('LADA (ВАЗ) 2211 4x4'));
 
 // Output: lada-vaz-2211-4x4
+```
+
+### Using custom dict
+
+```JavaScript
+import { CarSlugger } from "car-slugger";
+const slugger = new CarSlugger();
+
+const dict = {
+	'1': 'one',
+	'2': 'two',
+	'3': 'three',
+	' ': ' ',
+
+	const string = slugger.translateCustom('3 3 2 1 1 3', dict);
+	// Output: "three three two one one three"
+};
 ```
