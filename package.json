@@ -1,6 +1,6 @@
 {
   "name": "@katokdoescode/car-slugger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple package to convert strings to slug strings. Crafted for converting car names and models to slug",
   "main": "index.ts",
   "scripts": {

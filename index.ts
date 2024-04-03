@@ -1,46 +1,46 @@
 type Alphabet = {
 	[key: string]: string;
-  }
+}
 
-  export class CarSlugger {
+export class CarSlugger {
 	/**
 	 * Alphabet needs to translate cyrillic letters to latin
 	 */
 	private dict: Alphabet = {
-	  'а':'a',
-	  'б':'b',
-	  'в':'v',
-	  'г':'g',
-	  'д':'d',
-	  'е':'e',
-	  'ё':'yo',
-	  'ж':'zh',
-	  'з':'z',
-	  'и':'i',
-	  'й':'i',
-	  'к':'k',
-	  'л':'l',
-	  'м':'m',
-	  'н':'n',
-	  'о':'o',
-	  'п':'p',
-	  'р':'r',
-	  'с':'s',
-	  'т':'t',
-	  'у':'u',
-	  'ф':'ph',
-	  'х':'h',
-	  'ц':'c',
-	  'ч':'ch',
-	  'ш':'sh',
-	  'щ':'sh',
-	  'ъ':'',
-	  'ы':'y',
-	  'ь':'',
-	  'э':'e',
-	  'ю':'u',
-	  'я':'ya',
-	  ' ': ' ',
+		'а': 'a',
+		'б': 'b',
+		'в': 'v',
+		'г': 'g',
+		'д': 'd',
+		'е': 'e',
+		'ё': 'yo',
+		'ж': 'zh',
+		'з': 'z',
+		'и': 'i',
+		'й': 'i',
+		'к': 'k',
+		'л': 'l',
+		'м': 'm',
+		'н': 'n',
+		'о': 'o',
+		'п': 'p',
+		'р': 'r',
+		'с': 's',
+		'т': 't',
+		'у': 'u',
+		'ф': 'ph',
+		'х': 'h',
+		'ц': 'c',
+		'ч': 'ch',
+		'ш': 'sh',
+		'щ': 'sh',
+		'ъ': '',
+		'ы': 'y',
+		'ь': '',
+		'э': 'e',
+		'ю': 'u',
+		'я': 'ya',
+		' ': ' ',
 	};
 
 	/**
@@ -50,7 +50,7 @@ type Alphabet = {
 	 * @returns string
 	 */
 	private wordsToSlug(text: string) {
-	  return text.replaceAll(' ', '-');
+		return text.replaceAll(' ', '-');
 	};
 
 
@@ -88,30 +88,30 @@ type Alphabet = {
 	 * @param text string
 	 * @returns string
 	 */
-	private parseString(text: string) {
-	  const words: string[] | null = text.match(this.commonRegExp);
-	  let output: string = '';
+	public parseString(text: string) {
+		const words: string[] | null = text.match(this.commonRegExp);
+		let output: string = '';
 
-	  words?.forEach((word: string, index: number, arr: any) => {
-		if(this.cyrillicRegExp.test(word)) {
+		words?.forEach((word: string, index: number, arr: any) => {
+			if (this.cyrillicRegExp.test(word)) {
 
-		  for(let i: number = 0; i <= word.length; i++) {
-			if(i < word.length) output+=this.dict[word[i].toLocaleLowerCase()] ?? '';
-			else output+=arr.length === index+1 ? '' : ' ';
-		  };
-		} else {
-		  const length = arr.length;
-		  const trueIndex = index+1;
+				for (let i: number = 0; i <= word.length; i++) {
+					if (i < word.length) output += this.dict[word[i].toLocaleLowerCase()] ?? '';
+					else output += arr.length === index + 1 ? '' : ' ';
+				};
+			} else {
+				const length = arr.length;
+				const trueIndex = index + 1;
 
-		  if(trueIndex !== length && trueIndex > 1 || (trueIndex === 1 && length > 1)) {
-			output+=word.toLowerCase() + ' ';
-		  } else if(trueIndex === length) {
-			output+=word.toLowerCase();
-		  };
-		};
-	  });
+				if (trueIndex !== length && trueIndex > 1 || (trueIndex === 1 && length > 1)) {
+					output += word.toLowerCase() + ' ';
+				} else if (trueIndex === length) {
+					output += word.toLowerCase();
+				};
+			};
+		});
 
-	  return output;
+		return output;
 	};
 
 	/**
@@ -121,12 +121,12 @@ type Alphabet = {
 	 * @returns string
 	 */
 	public translateCyrillic(text: string) {
-		if(this.cyrillicRegExp.test(text)) {
+		if (this.cyrillicRegExp.test(text)) {
 			let output: string = '';
-			for(let i: number = 0; i <= text.length; i++) {
-				if(this.cyrillicUppercase.test(text[i])) output+= this.dict[text[i].toLowerCase()].toUpperCase() ?? '';
-				if(this.cyrillicLowercase.test(text[i])) output+= this.dict[text[i]] ?? '';
-				else output+=this.dict[text[i]] ?? '';
+			for (let i: number = 0; i <= text.length; i++) {
+				if (this.cyrillicUppercase.test(text[i])) output += this.dict[text[i].toLowerCase()].toUpperCase() ?? '';
+				if (this.cyrillicLowercase.test(text[i])) output += this.dict[text[i]] ?? '';
+				else output += this.dict[text[i]] ?? '';
 			};
 			return output;
 		} else {
@@ -135,13 +135,13 @@ type Alphabet = {
 	}
 
 	public testString(string: string) {
-	  console.debug('Input string: ', string);
-	  console.debug('Output string: ',this.parseString(string));
-	  console.debug('Output Slug: ',
-		this.wordsToSlug(
-		  this.parseString(string)
-		)
-	  );
+		console.debug('Input string: ', string);
+		console.debug('Output string: ', this.parseString(string));
+		console.debug('Output Slug: ',
+			this.wordsToSlug(
+				this.parseString(string)
+			)
+		);
 	};
 
 	/**
@@ -154,8 +154,8 @@ type Alphabet = {
 	 * @example "LADA (ВАЗ) 2112 4x4" >>> "lada-vaz-2112-4x4"
 	 */
 	public getSlug(string: string) {
-	  return this.wordsToSlug(
-		this.parseString(string)
-	  );
+		return this.wordsToSlug(
+			this.parseString(string)
+		);
 	};
-  }
+}
